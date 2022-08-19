@@ -55,12 +55,14 @@ PJSON=$(cat package.json | jq --tab '
 	| .typesVersions["*"]["build/cjs/index.d.ts"] = ["build/esm/index.d.ts"]
 	| .typesVersions["*"]["*"] = ["build/esm/*"]
 	| .scripts["to-cjs"] = "esm2cjs --in build/esm --out build/cjs -t node12"
+	| del(.scripts.prepare)
 	| .xo.ignores = ["build", "tests/", "**/*.d.ts"]
 	| .ava.extensions.mts = "module"
 ')
 echo "$PJSON" > package.json
 
 npm i
+npm run build
 
 npm i -D @alcalzone/esm2cjs
 npm run to-cjs
