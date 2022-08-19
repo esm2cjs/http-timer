@@ -8,7 +8,7 @@ import util from 'node:util';
 import pEvent from 'p-event';
 import test from 'ava';
 import http2 from 'http2-wrapper';
-import timer, {Timings, ClientRequestWithTimings, IncomingMessageWithTimings} from '../source/index.js';
+import timer, {Timings, ClientRequestWithTimings, IncomingMessageWithTimings} from '../build/esm/index.js';
 
 let server: http.Server & {
 	url?: string;

@@ -1,20 +1,24 @@
 {
-	"name": "@szmarczak/http-timer",
+	"name": "@esm2cjs/http-timer",
 	"version": "5.0.1",
-	"description": "Timings for HTTP requests",
-	"type": "module",
-	"exports": "./dist/source/index.js",
+	"description": "Timings for HTTP requests. This is a fork of @szmarczak/http-timer, but with CommonJS support.",
+	"exports": {
+		".": {
+			"import": "./build/esm/index.js",
+			"require": "./build/cjs/index.js"
+		},
+		"./package.json": "./package.json"
+	},
 	"engines": {
 		"node": ">=14.16"
 	},
 	"scripts": {
 		"test": "xo && ava",
 		"build": "del-cli dist && tsc",
-		"prepare": "npm run build",
 		"coveralls": "exit 0 && nyc report --reporter=text-lcov | coveralls"
 	},
 	"files": [
-		"dist/source"
+		"build/"
 	],
 	"keywords": [
 		"http",
@@ -25,11 +29,11 @@
 		"performance",
 		"measure"
 	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/szmarczak/http-timer.git"
+	"repository": "esm2cjs/http-timer",
+	"author": {
+		"name": "Dominic Griesel",
+		"email": "d.griesel@gmx.net"
 	},
-	"author": "Szymon Marczak",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/szmarczak/http-timer/issues"
@@ -52,7 +56,7 @@
 		"typescript": "^4.3.5",
 		"xo": "^0.44.0"
 	},
-	"types": "dist/source",
+	"types": "build/esm/index.d.ts",
 	"nyc": {
 		"extension": [
 			".ts"
@@ -68,7 +72,12 @@
 			"@typescript-eslint/no-unsafe-member-access": "off",
 			"@typescript-eslint/no-unsafe-call": "off",
 			"unicorn/prefer-node-protocol": "off"
-		}
+		},
+		"ignores": [
+			"build",
+			"tests/",
+			"**/*.d.ts"
+		]
 	},
 	"ava": {
 		"files": [
@@ -80,10 +89,30 @@
 			"configurableModuleFormat": true
 		},
 		"extensions": {
-			"ts": "module"
+			"ts": "module",
+			"mts": "module"
 		},
 		"nodeArguments": [
 			"--loader=ts-node/esm"
 		]
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"funding": "https://github.com/sponsors/AlCalzone",
+	"main": "build/cjs/index.js",
+	"module": "build/esm/index.js",
+	"typesVersions": {
+		"*": {
+			"build/esm/index.d.ts": [
+				"build/esm/index.d.ts"
+			],
+			"build/cjs/index.d.ts": [
+				"build/esm/index.d.ts"
+			],
+			"*": [
+				"build/esm/*"
+			]
+		}
 	}
 }
